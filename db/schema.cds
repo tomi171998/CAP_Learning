@@ -1,7 +1,11 @@
 namespace com.sap.learning;
 
-entity Books {
-    key ID : UUID;
+using {
+    cuid,
+    managed
+} from '@sap/cds/common';
+
+entity Books : cuid, managed {
     title : String(255);
     genre : Genre;
     publCountry : String(3);
@@ -23,14 +27,24 @@ type Price {
     currency : String(3);
 }
 
-entity Authors {
-    key ID : UUID;
+entity Authors : cuid, managed {
     name : String(100);
     dateOfBirth : Date;
     dateOfDeath : Date;
     books : Association to many Books
             on books.author = $self;
 }
+
+extend Authors with ManagedObject;
+extend Books with ManagedObject;
+
+//Named aspect
+aspect ManagedObject {
+    createdAt : Timestamp;
+    createdBy : String(255);
+}
+
+
 
 entity Orders {
     key ID : UUID;

@@ -8,6 +8,7 @@ entity Books {
     stock : NoOfBooks;
     price : Price;
     isHardcover : Boolean;
+    author: Association to Authors;
 }
 
 type Genre : Integer enum {
@@ -27,4 +28,18 @@ entity Authors {
     name : String(100);
     dateOfBirth : Date;
     dateOfDeath : Date;
+    books : Association to many Books
+            on books.author = $self;
+}
+
+entity Orders {
+    key ID : UUID;
+    description : String(100);
+    items : Composition of many OrderItems
+            on items.order = $self;
+}
+
+entity OrderItems {
+    key order : Association to Orders;
+    key pos : Integer;
 }

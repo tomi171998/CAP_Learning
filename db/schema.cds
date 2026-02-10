@@ -65,3 +65,11 @@ entity OrderItems {
 entity Epochs : CodeList {
     key ID : Integer;
 }
+
+annotate Authors with {
+    modifiedAt @odata.etag; //With GET request sending value of modifiedAt in header of RQ as ETag, if then update is sended and value of modified at in db is different as that etag it was changed druring update
+};
+
+annotate Books with {
+    modifiedAt @odata.etag; //Optimistic locking
+};

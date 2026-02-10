@@ -36,7 +36,7 @@ entity Authors : cuid, managed {
     dateOfDeath : Date;
     books : Association to many Books
             on books.author = $self;
-    epochs : Association to Epochs
+    epoch : Association to Epochs
 }
 
 extend Authors with ManagedObject;

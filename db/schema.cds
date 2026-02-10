@@ -9,13 +9,13 @@ using {
 } from '@sap/cds/common';
 
 entity Books : cuid, managed {
-    title : localized String(255); //Creates a second table Books.texts where ID of Books entity is connecting this tables
-    genre : Genre;
+    title : localized String(255) @mandatory; //localized creates a second table Books.texts where ID of Books entity is connecting this tables
+    genre : Genre @assert.range: true; //true can be specified to restrict possible values to the defined enum values
     publCountry : Country;
-    stock : NoOfBooks;
+    stock : NoOfBooks default 0;
     price : Price;
     isHardcover : Boolean;
-    author: Association to Authors;
+    author: Association to Authors @mandatory @assert.target; //The @assert.target annotation checks whether the specified author exists
 }
 
 type Genre : Integer enum {

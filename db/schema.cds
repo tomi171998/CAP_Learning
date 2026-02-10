@@ -2,13 +2,16 @@ namespace com.sap.learning;
 
 using {
     cuid,
-    managed
+    managed,
+    sap.common.CodeList,
+    Country,
+    Currency
 } from '@sap/cds/common';
 
 entity Books : cuid, managed {
-    title : String(255);
+    title : localized String(255); //Creates a second table Books.texts where ID of Books entity is connecting this tables
     genre : Genre;
-    publCountry : String(3);
+    publCountry : Country;
     stock : NoOfBooks;
     price : Price;
     isHardcover : Boolean;
@@ -24,7 +27,7 @@ type NoOfBooks : Integer;
 
 type Price {
     amount : Decimal;
-    currency : String(3);
+    currency : Currency;
 }
 
 entity Authors : cuid, managed {
@@ -33,6 +36,7 @@ entity Authors : cuid, managed {
     dateOfDeath : Date;
     books : Association to many Books
             on books.author = $self;
+    epochs : Association to Epochs
 }
 
 extend Authors with ManagedObject;
@@ -56,4 +60,8 @@ entity Orders {
 entity OrderItems {
     key order : Association to Orders;
     key pos : Integer;
+}
+
+entity Epochs : CodeList {
+    key ID : Integer;
 }
